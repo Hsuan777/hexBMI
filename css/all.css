@@ -11423,4 +11423,9 @@ a.text-obese:hover, a.text-obese:focus {
 body {
   background-color: #424242;
 }
+
+.logo-sm {
+  width: 55px;
+  height: 55px;
+}
 /*# sourceMappingURL=all.css.map */
