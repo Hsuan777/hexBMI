@@ -59,20 +59,20 @@
           <div class="col-md-4 mt-sm-3 d-flex justify-content-center align-items-center flex-column">
             <div class="input-group  ">
               <div class="input-group-append ">
-                <label for="user" class="input-group-text bg-light rounded-left ">
+                <label for="weight" class="input-group-text bg-light rounded-left ">
                   體重
                 </label>
               </div>
-              <input type="email" class="form-control bg-light border-left-0 " id="user" placeholder=""
+              <input type="text" class="form-control bg-light border-left-0 " id="weight" placeholder=""
                 data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入體重</em>" required>
             </div>
             <div class="input-group  my-3">
               <div class="input-group-append">
-                <label for="password" class="input-group-text bg-light rounded-left">
+                <label for="height" class="input-group-text bg-light rounded-left">
                   身高
                 </label>
               </div>
-              <input type="password" class="form-control bg-light border-left-0 border-primary" id="password" placeholder=""
+              <input type="text" class="form-control bg-light border-left-0 border-primary" id="height" placeholder=""
                 data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入身高</em>" required>
             </div>
             <button type="submit" class="btn btn-primary ">看結果</button>
@@ -88,21 +88,21 @@
         <table class="table table-borderless text-center">
           <tbody>
             <tr class="table-success">
-              <th >理想</th>
+              <th>理想</th>
               <td>BMI</td>
               <td>體重</td>
               <td>身高</td>
               <td>查詢時間</td>
             </tr>
-            <tr class="table-underweight">
-              <th >過輕</th>
+            <tr class="table-underweight ">
+              <th>過輕</th>
               <td>BMI</td>
               <td>體重</td>
               <td>身高</td>
               <td>查詢時間</td>
             </tr>
             <tr class="table-danger">
-              <th >重度肥胖</th>
+              <th>重度肥胖</th>
               <td>BMI</td>
               <td>體重</td>
               <td>身高</td>
@@ -113,7 +113,7 @@
         </table>
       </div>
     </div>
-    
+
   </main>
 
   <footer class="bg-primary">
@@ -129,6 +129,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
     integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
     crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+
 
   <script src="js/hexBMI.js"></script>
 
