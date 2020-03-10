@@ -51,7 +51,7 @@
 
   <main>
     <div class="container mt-5">
-      <form class="">
+      <form class="" method="post" target="nm_iframe">
         <div class="row  align-items-center ">
           <div class="col-md-4 d-flex justify-content-end ">
             <img src="img/BMICLogo.png" alt="" class="img-fluid d-none d-md-block ">
@@ -80,13 +80,14 @@
 
         </div>
       </form>
+      <iframe  name="nm_iframe" class="d-none"></iframe>
     </div>
 
     <div class="container-fluid bg-light mt-5 py-5">
       <div class="container ">
         <h2 class="text-center mb-3">BMI 紀錄</h2>
-        <table class="table table-borderless text-center">
-          <tbody>
+        <table class="table table-borderless text-center table__BMI">
+          <!-- <tbody>
             <tr class="table-success">
               <th>理想</th>
               <td>BMI</td>
@@ -109,7 +110,7 @@
               <td>查詢時間</td>
             </tr>
 
-          </tbody>
+          </tbody> -->
         </table>
       </div>
     </div>
