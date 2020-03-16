@@ -19,6 +19,7 @@ submitBtn.addEventListener('click', function () {
     "BMI": bmi,
     "weight": weight,
     "height": height,
+    "recordTime": "",
   };
 
   // 判斷 使用者行為
@@ -34,7 +35,7 @@ submitBtn.addEventListener('click', function () {
     var th = document.createElement("th");
     table__BMI.appendChild(tbody).appendChild(tr).appendChild(th);
 
-    // 判斷 -> bmi 數值範圍對應資料並回寫 {bmiRecord}
+    // 判斷並回寫 -> bmi 數值範圍對應資料並回寫 {bmiRecord}
     if (bmi < 18.5) {
       tr.classList.add('table-underweight');
       th.textContent = "過輕";
@@ -70,7 +71,17 @@ submitBtn.addEventListener('click', function () {
     tdHeight.appendChild(textHeight);
     tr.appendChild(tdHeight);
 
+    var tdTime = document.createElement("td");
+    var todayTime = new Date();
+    var formatTime = todayTime.getFullYear() +"/"+ (todayTime.getMonth()+1) +"/"+ todayTime.getDay() ;
+    tdTime.className = 'table-updata';
+    var textTime = document.createTextNode('紀錄時間 : ' + formatTime );
+    tdTime.appendChild(textTime);
+    tr.appendChild(tdTime);
     
+    // 回寫 ->  bmiRecord.recordTime
+    bmiRecord.recordTime = formatTime;
+
     bmiArrey.push(bmiRecord);
     console.log(bmiArrey);
   }
