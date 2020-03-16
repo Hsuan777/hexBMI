@@ -73,15 +73,17 @@ submitBtn.addEventListener('click', function () {
 
     var tdTime = document.createElement("td");
     var todayTime = new Date();
+    console.log(todayTime);
     var formatTime = todayTime.getFullYear() +"/"+ (todayTime.getMonth()+1) +"/"+ todayTime.getDay() ;
     tdTime.className = 'table-updata';
     var textTime = document.createTextNode('紀錄時間 : ' + formatTime );
     tdTime.appendChild(textTime);
     tr.appendChild(tdTime);
     
-    // 回寫 ->  bmiRecord.recordTime
+    // 回寫 物件資料 ->  bmiRecord.recordTime
     bmiRecord.recordTime = formatTime;
-
+    
+    // 回寫 物件資料放進陣列
     bmiArrey.push(bmiRecord);
     console.log(bmiArrey);
   }
