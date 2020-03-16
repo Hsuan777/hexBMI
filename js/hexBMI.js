@@ -3,7 +3,10 @@
 // 建立 空[] -> 存放 bmi紀錄至陣列，若 localStorage有資料則取出
 // - 由於瀏覽器只支援字串，必須先轉成 "字串" 再存入
 // - 要使用資料時，再將資料轉成 "陣列"
-var bmiArrey = [] || JSON.parse(localStorage.getItem('bmiRecord'));
+// - || 優先檢查左邊，若為 true 優先回傳 第一個
+var bmiArrey = JSON.parse(localStorage.getItem('bmiRecord')) || [];
+console.log(bmiArrey);
+
 
 // 事件 "click" submit  -> 計算 BMI並顯示資料
 var submitBtn = document.querySelector('[type="submit"]');
@@ -87,12 +90,10 @@ submitBtn.addEventListener('click', function () {
     
     // 回寫 物件資料 -> 存放至 bmiArrey
     bmiArrey.push(bmiRecord);
-    console.log(bmiArrey);
 
     // 回寫 物件資料 -> localStorage
     localStorage.setItem('bmiRecord',JSON.stringify(bmiArrey));
   }
 })
-
 
 
