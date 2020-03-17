@@ -14,7 +14,7 @@ var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
 var table__BMI = document.querySelector('.table__BMI');
 var tbody = document.createElement("tbody");
 table__BMI.appendChild(tbody);
-if (bmiArray.length === 0 ){
+if (bmiArray.length === 0) {
   var tagNodata = document.createElement("h4");
   var textNodata = document.createTextNode('快來計算看看吧 !');
   tagNodata.className = 'mt-3 text-underweight';
@@ -36,7 +36,7 @@ for (i = 0; i < bmiArray.length; i++) {
   tr.appendChild(tdWeight);
   tr.appendChild(tdHeight);
   tr.appendChild(tdTime);
- 
+
   th.className = 'font-weight-bold';
   th.textContent = bmiArray[i].status;
   tdBMI.textContent = 'BMI : ' + bmiArray[i].BMI;
@@ -54,11 +54,15 @@ for (i = 0; i < bmiArray.length; i++) {
   }
 
 }
-
+// 事件 "click" -> 清空 localStorage資料
+var btnClear = document.querySelector('.js-clear');
+btnClear.addEventListener('click', function () {
+  localStorage.clear('bmiRecord');
+}, false)
 
 // 事件 "click" -> 計算 BMI並顯示資料
-var submitBtn = document.querySelector('[type="submit"]');
-submitBtn.addEventListener('click', function () {
+var btnSubmit = document.querySelector('.js-record');
+btnSubmit.addEventListener('click', function () {
   // 取得 input元素 "值" -> weight、height
   var weight = document.getElementById('weight').value;
   var height = document.getElementById('height').value;
@@ -76,9 +80,11 @@ submitBtn.addEventListener('click', function () {
   };
 
   // 判斷 -> 使用者行為
-  if (weight == "" || height == "") {
-    alert("請先輸入數字");
-  } else {
+  if (weight == "" ) {
+    alert("請輸入體重");
+  }else if(height == ""){
+    alert("請輸入身高");
+  }else {
     // 判斷 -> bmi 數值範圍並寫入 {bmiRecord}.status 欄位
     if (bmi < 18.5) {
       bmiRecord.status = "過輕";
@@ -89,7 +95,7 @@ submitBtn.addEventListener('click', function () {
     }
 
     // 回傳 時間 -> 按下按鈕當前時間並寫入 {bmiRecord}.recordTime 欄位
-    bmiRecord.recordTime = time() ;
+    bmiRecord.recordTime = time();
 
     // 建立 陣列新資料 -> 存放至 bmiArray[]
     bmiArray.push(bmiRecord);

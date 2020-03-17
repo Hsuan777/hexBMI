@@ -51,7 +51,8 @@
 
   <main>
     <div class="container mt-5">
-      <form class="" method="">   <!-- 不會自動跳轉 target="nm_iframe" -->
+      <form class="" method="">
+        <!-- 不會自動跳轉 target="nm_iframe" -->
         <div class="row  align-items-center ">
           <div class="col-md-4 d-flex justify-content-end ">
             <img src="img/BMICLogo.png" alt="" class="img-fluid d-none d-md-block ">
@@ -75,13 +76,14 @@
               <input type="text" class="form-control bg-light border-left-0 border-primary" id="height" placeholder=""
                 data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入身高</em>" required>
             </div>
-            <button type="submit" class="btn btn-primary ">看結果</button>
+            <button type="submit" class="btn btn-primary  js-record">看結果</button>
           </div>
-
         </div>
-      </form>
-      <!-- 為什麼這樣可以不跳轉直接顯示? -->
-      <!-- <iframe  name="nm_iframe" class="d-none"></iframe> -->
+
+    </div>
+    </form>
+    <!-- 為什麼這樣可以不跳轉直接顯示? -->
+    <!-- <iframe  name="nm_iframe" class="d-none"></iframe> -->
     </div>
 
     <div class="container-fluid bg-light mt-5 py-5">
@@ -89,10 +91,14 @@
         <h2 class="text-center mb-3 ">BMI 紀錄</h2>
         <div class="table-responsive-lg">
           <table class="table table-borderless text-center table__BMI text-nowrap">
-          
+
           </table>
         </div>
-        
+        <div class="d-flex justify-content-center">
+          <form action="">
+            <button type="submit" class="btn btn-primary js-clear">Clear</button>
+          </form>
+        </div>
       </div>
     </div>
 
