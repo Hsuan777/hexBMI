@@ -95,7 +95,7 @@ btnSubmit.addEventListener('click', function () {
     }
 
     // 回傳 時間 -> 按下按鈕當前時間並寫入 {bmiRecord}.recordTime 欄位
-    bmiRecord.recordTime = time();
+    bmiRecord.recordTime = timeFunction();
 
     // 建立 陣列新資料 -> 存放至 bmiArray[]
     bmiArray.push(bmiRecord);
@@ -106,18 +106,49 @@ btnSubmit.addEventListener('click', function () {
 })
 
 // 取得 -> 格式化時間
-function time() {
+function timeFunction() {
   var todayTime = new Date();
   // year/month/day
   var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
   return formatTime;
 }
 
+
+// 參考網址: https://mrcodingroom.freesite.host/htmlcssjs%E7%B0%A1%E6%98%93%E7%BD%AE%E9%A0%82%E6%8C%89%E9%88%95/
+
+// 事件 BOM -> 每當畫面捲動觸發一次 scrollFunction();
+// - 網頁捲動超過 100pixel顯示
+window.onscroll = function() {
+  scrollFunction();
+}; 
+function scrollFunction() { 
+  var top = document.querySelector('.top');
+  // - document.documentElement -> <html>
+  // - document.body -> <html>
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    top.style.display = "block";
+  } else {
+    top.style.display = "none";
+  }
+}
+
 // 事件 -> 回到頂部，需要的 BOM scroll、scrollTop
-// TODO: 寫出原生 TOP
 var top = document.querySelector('.top');
 top.addEventListener('click', function(){
-  event.preventDefault();
-
+  topFunction();
+  // TODO:取消預設行為反而不會跳轉 ?
+  // event.preventDefault();
   // $('html,body').animate({ scrollTop: 0 }, 1000);
-}, false)
+}, true)
+// 重置 scrollTop這個變數的值
+// TODO: 如何達成延遲效果 ?
+// - 由於 scrollTop也屬於 DOM的一種，若會使用 CSS animation，可以完成類似進度條效果
+// 參考 : https://www.w3cplus.com/animation/controlling-css-animations-transitions-javascript.html
+function topFunction() {
+  // 若歸零失效，改成使用錨點至 <head>
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+
+//class添加不能使用className，要用效能更高的classList.add() ? 差別?
