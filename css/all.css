@@ -11424,6 +11424,15 @@ body {
   background-color: #424242;
 }
 
+.top {
+  border: 0px;
+  background-color: rgba(240, 232, 225, 0.5);
+  position: fixed;
+  z-index: 99;
+  bottom: 25px;
+  right: 25px;
+}
+
 .logo-sm {
   width: 55px;
   height: 55px;

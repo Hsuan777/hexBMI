@@ -105,7 +105,7 @@ btnSubmit.addEventListener('click', function () {
   }
 })
 
-
+// 取得 -> 格式化時間
 function time() {
   var todayTime = new Date();
   // year/month/day
@@ -113,3 +113,11 @@ function time() {
   return formatTime;
 }
 
+// 事件 -> 回到頂部，需要的 BOM scroll、scrollTop
+// TODO: 寫出原生 TOP
+var top = document.querySelector('.top');
+top.addEventListener('click', function(){
+  event.preventDefault();
+
+  // $('html,body').animate({ scrollTop: 0 }, 1000);
+}, false)
