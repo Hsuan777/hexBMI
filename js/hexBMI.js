@@ -14,6 +14,13 @@ var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
 var table__BMI = document.querySelector('.table__BMI');
 var tbody = document.createElement("tbody");
 table__BMI.appendChild(tbody);
+if (bmiArray.length === 0 ){
+  var tagNodata = document.createElement("h4");
+  var textNodata = document.createTextNode('快來計算看看吧 !');
+  tagNodata.className = 'mt-3 text-underweight';
+  tagNodata.appendChild(textNodata);
+  tbody.appendChild(tagNodata);
+}
 for (i = 0; i < bmiArray.length; i++) {
   // - createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
   // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
@@ -29,7 +36,8 @@ for (i = 0; i < bmiArray.length; i++) {
   tr.appendChild(tdWeight);
   tr.appendChild(tdHeight);
   tr.appendChild(tdTime);
-
+ 
+  th.className = 'font-weight-bold';
   th.textContent = bmiArray[i].status;
   tdBMI.textContent = 'BMI : ' + bmiArray[i].BMI;
   tdWeight.textContent = '體重 : ' + bmiArray[i].weight;
