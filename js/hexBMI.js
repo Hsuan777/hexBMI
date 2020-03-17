@@ -1,46 +1,42 @@
-// 取得、建立、事件、判斷、回寫(物件資料、瀏覽器畫面與 cookie )
+// 取得 -> 各類型資料，物件、時間、瀏覽器各式資訊等等...
+// 建立 -> 空物件、物件內資料、節點標籤等等...
+// 事件 -> 各種事件，click、dblclick、load、scroll、input、submit等等...
+// 判斷 -> 條件判斷，if、else、else if、switch、判斷運算子等等...
+// 回寫 -> 回傳結果，萬用console.log();、各種條件判斷與計算結果(包含文字與值等等...)
 
-// 建立 空[] -> 存放 bmi紀錄至陣列，若 localStorage有資料則取出
+// 取得資料 或 建立空[] -> 若 localStorage有資料則取出，否則存放 bmi紀錄至陣列作為物件資料使用
 // - 由於瀏覽器只支援字串，必須先轉成 "字串" 再存入
 // - 要使用資料時，再將資料轉成 "陣列"
-// - || 優先檢查左邊，若為 true 優先回傳 第一個
+// - || 優先檢查左邊，若為 true 優先回傳 "第一個"
 var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
 
-
+// 回寫 -> 若有資料則顯示至頁面
 var table__BMI = document.querySelector('.table__BMI');
 var tbody = document.createElement("tbody");
 table__BMI.appendChild(tbody);
 for (i = 0; i < bmiArray.length; i++) {
+  // - createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
+  // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
   var tr = document.createElement("tr");
   var th = document.createElement("th");
-  var td = document.createElement("td");
-  tbody.appendChild(tr);
-  // var textStatus = document.createTextNode('BMI : ' + bmiArray[i].status);
-  // th.appendChild(textStatus);
-  th.textContent = bmiArray[i].status;
-  tr.appendChild(th);
-  // createTextNode or textContent ?
   var tdBMI = document.createElement("td");
-  var textBMI = document.createTextNode('BMI : ' + bmiArray[i].BMI);
-  tdBMI.appendChild(textBMI);
-  tr.appendChild(tdBMI);
-
   var tdWeight = document.createElement("td");
-  var textWeight = document.createTextNode('體重 : ' + bmiArray[i].weight);
-  tdWeight.appendChild(textWeight);
-  tr.appendChild(tdWeight);
-
   var tdHeight = document.createElement("td");
-  var textHeight = document.createTextNode('身高 : ' + bmiArray[i].height);
-  td.appendChild(textHeight);
-  tr.appendChild(td);
-
   var tdTime = document.createElement("td");
-  var textTime = document.createTextNode('紀錄時間 : ' + bmiArray[i].recordTime);
-  tdTime.appendChild(textTime);
+  tbody.appendChild(tr);
+  tr.appendChild(th);
+  tr.appendChild(tdBMI);
+  tr.appendChild(tdWeight);
+  tr.appendChild(tdHeight);
   tr.appendChild(tdTime);
 
- 
+  th.textContent = bmiArray[i].status;
+  tdBMI.textContent = 'BMI : ' + bmiArray[i].BMI;
+  tdWeight.textContent = '體重 : ' + bmiArray[i].weight;
+  tdHeight.textContent = '身高 : ' + bmiArray[i].height;
+  tdTime.textContent = '紀錄時間 : ' + bmiArray[i].recordTime;
+
+  // 判斷 -> 不同數值範圍對應不同 class底色
   if (bmiArray[i].BMI < 18.5) {
     tr.classList.add('table-underweight');
   } else if (bmiArray[i].BMI >= 18.5 && bmiArray[i].BMI <= 24.9) {
@@ -52,7 +48,7 @@ for (i = 0; i < bmiArray.length; i++) {
 }
 
 
-// 事件 "click" submit  -> 計算 BMI並顯示資料
+// 事件 "click" -> 計算 BMI並顯示資料
 var submitBtn = document.querySelector('[type="submit"]');
 submitBtn.addEventListener('click', function () {
   // 取得 input元素 "值" -> weight、height
@@ -71,73 +67,35 @@ submitBtn.addEventListener('click', function () {
     "recordTime": "",
   };
 
-  // 判斷 使用者行為
+  // 判斷 -> 使用者行為
   if (weight == "" || height == "") {
     alert("請先輸入數字");
   } else {
-    // 取得 節點 -> BMI紀錄表格
-    var table__BMI = document.querySelector('.table__BMI');
-
-    // 建立 節點 tbody、tr、th
-    var tbody = document.createElement("tbody");
-    var tr = document.createElement("tr");
-    var th = document.createElement("th");
-    table__BMI.appendChild(tbody).appendChild(tr).appendChild(th);
-
-    // 判斷並回寫 -> bmi 數值範圍對應資料並回寫 {bmiRecord}
+    // 判斷 -> bmi 數值範圍並寫入 {bmiRecord}.status 欄位
     if (bmi < 18.5) {
-      tr.classList.add('table-underweight');
-      th.textContent = "過輕";
       bmiRecord.status = "過輕";
     } else if (bmi >= 18.5 && bmi <= 24.9) {
-      tr.classList.add('table-success');
-      th.textContent = "理想";
       bmiRecord.status = "理想";
     } else if (bmi > 24.9) {
-      tr.classList.add('table-danger');
-      th.textContent = "危險";
       bmiRecord.status = "危險";
     }
 
-    // 建立 節點 td -> BMI、體重、身高
-    var tdBMI = document.createElement("td");
-    tdBMI.className = 'table-BMI';
-    var textBMI = document.createTextNode('BMI : ' + bmi);
-    tdBMI.appendChild(textBMI);
-    tr.appendChild(tdBMI);
+    // 回傳 時間 -> 按下按鈕當前時間並寫入 {bmiRecord}.recordTime 欄位
+    bmiRecord.recordTime = time() ;
 
-    // var tdWeight = document.createElement("td").setAttribute('id','table-weight');
-    var tdWeight = document.createElement("td");
-    tdWeight.className = 'table-weight';
-    var textWeight = document.createTextNode('體重 : ' + weight);
-    tdWeight.appendChild(textWeight);
-    tr.appendChild(tdWeight);
-
-    // var tdHeight = document.createElement("td").setAttribute('id','table-height');
-    var tdHeight = document.createElement("td");
-    tdHeight.className = 'table-height';
-    var textHeight = document.createTextNode('身高 : ' + height);
-    tdHeight.appendChild(textHeight);
-    tr.appendChild(tdHeight);
-
-    var tdTime = document.createElement("td");
-    var todayTime = new Date();
-    console.log(todayTime);
-    var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
-    tdTime.className = 'table-update';
-    var textTime = document.createTextNode('紀錄時間 : ' + formatTime);
-    tdTime.appendChild(textTime);
-    tr.appendChild(tdTime);
-
-    // 回寫 物件資料 ->  bmiRecord.recordTime
-    bmiRecord.recordTime = formatTime;
-
-    // 回寫 物件資料 -> 存放至 bmiArray
+    // 建立 陣列新資料 -> 存放至 bmiArray[]
     bmiArray.push(bmiRecord);
 
-    // 回寫 物件資料 -> localStorage
+    // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
   }
 })
 
+
+function time() {
+  var todayTime = new Date();
+  // year/month/day
+  var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
+  return formatTime;
+}
 
