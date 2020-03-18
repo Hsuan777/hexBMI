@@ -22,7 +22,7 @@ if (bmiArray.length === 0) {
   tagNodata.appendChild(textNodata);
   tbody.appendChild(tagNodata);
 }
-for (i = 0; i < bmiArray.length ; i++) {
+for (i = bmiArray.length - 1; i >= 0; i--) {
   // - createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
   // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
   var tr = document.createElement("tr");
@@ -109,7 +109,7 @@ btnSubmit.addEventListener('click', function () {
 
     // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
-    
+
   }
 });
 
@@ -117,7 +117,15 @@ btnSubmit.addEventListener('click', function () {
 function timeFunction() {
   var todayTime = new Date();
   // year/month/day
-  var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
+  // var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
+  
+  var year = todayTime.getFullYear();
+  var month = ("0" + (todayTime.getMonth() + 1)).slice(-2);
+  var day = ("0" + (todayTime.getDate() + 1)).slice(-2);
+  var hour = ("0" + (todayTime.getHours())).slice(-2);
+  var minute = ("0" + todayTime.getMinutes()).slice(-2);
+  var second = ("0" + todayTime.getSeconds()).slice(-2);
+  var formatTime = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
   return formatTime;
 }
 
@@ -143,7 +151,7 @@ function scrollFunction() {
   top.addEventListener('click', function (event) {
     event.preventDefault();
     topFunction(0);
-    
+
   }, false)
 }
 
