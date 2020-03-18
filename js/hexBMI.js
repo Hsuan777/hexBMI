@@ -22,7 +22,7 @@ if (bmiArray.length === 0) {
   tagNodata.appendChild(textNodata);
   tbody.appendChild(tagNodata);
 }
-for (i = 0; i < bmiArray.length; i++) {
+for (i = 0; i < bmiArray.length ; i++) {
   // - createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
   // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
   var tr = document.createElement("tr");
@@ -53,21 +53,23 @@ for (i = 0; i < bmiArray.length; i++) {
   } else if (bmiArray[i].BMI > 24.9) {
     tr.classList.add('table-danger');
   }
-
 }
 
-// 刷新頁面後，跳至 BMI紀錄之頁面高度
+
+// 功能 -> 刷新頁面後，跳至 BMI紀錄之頁面高度
 topFunction(350);
+
 
 // 事件 "click" -> 清空 localStorage資料
 var btnClear = document.querySelector('.js-clear');
 btnClear.addEventListener('click', function () {
   localStorage.clear('bmiRecord');
-}, false)
+}, false);
 
 // 事件 "click" -> 計算 BMI並顯示資料
 var btnSubmit = document.querySelector('.js-record');
 btnSubmit.addEventListener('click', function () {
+
   // 取得 input元素 "值" -> weight、height
   var weight = document.getElementById('weight').value;
   var height = document.getElementById('height').value;
@@ -85,11 +87,11 @@ btnSubmit.addEventListener('click', function () {
   };
 
   // 判斷 -> 使用者行為
-  if (weight == "" ) {
+  if (weight == "") {
     alert("請輸入體重");
-  }else if(height == ""){
+  } else if (height == "") {
     alert("請輸入身高");
-  }else {
+  } else {
     // 判斷 -> bmi 數值範圍並寫入 {bmiRecord}.status 欄位
     if (bmi < 18.5) {
       bmiRecord.status = "過輕";
@@ -107,8 +109,9 @@ btnSubmit.addEventListener('click', function () {
 
     // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
+    
   }
-})
+});
 
 // 取得 -> 格式化時間
 function timeFunction() {
@@ -118,57 +121,63 @@ function timeFunction() {
   return formatTime;
 }
 
-// 事件 BOM -> 每當畫面捲動觸發一次 scrollFunction();
+// 事件 BOM 'onscroll' -> 每當畫面捲動觸發一次 scrollFunction();
 // - 參考網址: https://mrcodingroom.freesite.host/htmlcssjs%E7%B0%A1%E6%98%93%E7%BD%AE%E9%A0%82%E6%8C%89%E9%88%95/
-window.onscroll = function() {
+window.onscroll = function () {
   scrollFunction();
-}; 
+};
 // 功能 -> 網頁捲動超過 100pixel顯示
-function scrollFunction() { 
+function scrollFunction() {
   var top = document.querySelector('.top');
 
   // 判斷 -> 若滾動頁面超過 100 ，則顯示
   // - document.documentElement -> <html>, For Chrome, Firefox, IE and Opera
   // - document.body -> <body>, for  Safari
-  if (window.pageYOffset >100 || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+  if (window.pageYOffset > 100 || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
     top.style.display = "block";
   } else {
     top.style.display = "none";
   }
 
-  // 事件 -> 回到頂部
-  top.addEventListener('click', function(event){
+  // 事件 'click' -> 回到頂部
+  top.addEventListener('click', function (event) {
     event.preventDefault();
     topFunction(0);
+    
   }, false)
 }
 
 
 // 功能 -> 改變 scrollTop的值
+// - 指定數值則可到頁面中某一位置
 // - 由於 scrollTop屬於 DOM的一種，若了解 animation原理，能有更多效果
-// - 歸零可至頂、指定數值則可到頁面中某一位置
 // - 參考 動畫與過度 : https://www.w3cplus.com/animation/controlling-css-animations-transitions-javascript.html
-// - 參考 animate 原理 : https://segmentfault.com/a/1190000008570887
+// - 參考 animate 原理 : https://segmentfault.com/a/1190000008570887 
+// - 參考 https://codepen.io/dsheiko/pen/XZEgXW
 
 function topFunction(scrollNumber) {
-  // 若歸零失效，改成使用錨點至 <head>
+  // BOM -> 平滑滾動
+  window.scrollTo({
+    top: scrollNumber,
+    behavior: "smooth"
+  });
+
+  // 使用錨點至 <head>
 
   // window.pageYOffset 歸零只有數值等於零，無回到頁面頂部效果
   // window.pageYOffset = 0;
 
   // 從目前位置歸零 無延遲效果 
-  document.body.scrollTop = scrollNumber; 
-  document.documentElement.scrollTop = scrollNumber;
-
-  // 如何延長完成時間?
-  // jQuery 
-  // - $('html,body').animate({ scrollTop: 0 }, 1000);
-  // - $('html,body') -> document.documentElement and document.body.scrollTop 
-  // - animate( {} , 1000) -> 原生 JavaScript語法可能長怎樣 ?
+  // document.body.scrollTop = scrollNumber;
+  // document.documentElement.scrollTop = scrollNumber;
 }
 
 // 問題
 // class添加不能使用 className，要用效能更高的 classList.add() ? 差別?
 
-// 動畫延遲效果 -> 使用 jQuery非常快速上手，但是原理概念不懂
-// - 目前已知 每毫秒或每秒跑多少?  設定多久完成動作?
+// 如何延長完成時間?
+// jQuery 
+// - $('html,body').animate({ scrollTop: 0 }, 1000);
+// - $('html,body') -> document.documentElement and document.body.scrollTop 
+// - animate( {} , 1000) -> 原生 JavaScript語法可能長怎樣 ?
+// - 目前已知 每毫秒或每秒跑多少?  設定多久完成動作 ?
