@@ -3,6 +3,7 @@
 // 事件 -> 各種事件，click、dblclick、load、scroll、input、submit等等...
 // 判斷 -> 條件判斷，if、else、else if、switch、判斷運算子等等...
 // 回寫 -> 回傳結果，萬用console.log();、各種條件判斷與計算結果(包含文字與值等等...)
+// 功能 -> 組合上述
 
 // 取得資料 或 建立空[] -> 若 localStorage有資料則取出，否則存放 bmi紀錄至陣列作為物件資料使用
 // - 由於瀏覽器只支援字串，必須先轉成 "字串" 再存入
@@ -54,6 +55,10 @@ for (i = 0; i < bmiArray.length; i++) {
   }
 
 }
+
+// 刷新頁面後，跳至 BMI紀錄之頁面高度
+topFunction(350);
+
 // 事件 "click" -> 清空 localStorage資料
 var btnClear = document.querySelector('.js-clear');
 btnClear.addEventListener('click', function () {
@@ -113,42 +118,57 @@ function timeFunction() {
   return formatTime;
 }
 
-
-// 參考網址: https://mrcodingroom.freesite.host/htmlcssjs%E7%B0%A1%E6%98%93%E7%BD%AE%E9%A0%82%E6%8C%89%E9%88%95/
-
 // 事件 BOM -> 每當畫面捲動觸發一次 scrollFunction();
-// - 網頁捲動超過 100pixel顯示
+// - 參考網址: https://mrcodingroom.freesite.host/htmlcssjs%E7%B0%A1%E6%98%93%E7%BD%AE%E9%A0%82%E6%8C%89%E9%88%95/
 window.onscroll = function() {
   scrollFunction();
 }; 
+// 功能 -> 網頁捲動超過 100pixel顯示
 function scrollFunction() { 
   var top = document.querySelector('.top');
-  // - document.documentElement -> <html>
-  // - document.body -> <html>
-  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+
+  // 判斷 -> 若滾動頁面超過 100 ，則顯示
+  // - document.documentElement -> <html>, For Chrome, Firefox, IE and Opera
+  // - document.body -> <body>, for  Safari
+  if (window.pageYOffset >100 || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
     top.style.display = "block";
   } else {
     top.style.display = "none";
   }
+
+  // 事件 -> 回到頂部
+  top.addEventListener('click', function(event){
+    event.preventDefault();
+    topFunction(0);
+  }, false)
 }
 
-// 事件 -> 回到頂部，需要的 BOM scroll、scrollTop
-var top = document.querySelector('.top');
-top.addEventListener('click', function(){
-  topFunction();
-  // TODO:取消預設行為反而不會跳轉 ?
-  // event.preventDefault();
-  // $('html,body').animate({ scrollTop: 0 }, 1000);
-}, true)
-// 重置 scrollTop這個變數的值
-// TODO: 如何達成延遲效果 ?
-// - 由於 scrollTop也屬於 DOM的一種，若會使用 CSS animation，可以完成類似進度條效果
-// 參考 : https://www.w3cplus.com/animation/controlling-css-animations-transitions-javascript.html
-function topFunction() {
+
+// 功能 -> 改變 scrollTop的值
+// - 由於 scrollTop屬於 DOM的一種，若了解 animation原理，能有更多效果
+// - 歸零可至頂、指定數值則可到頁面中某一位置
+// - 參考 動畫與過度 : https://www.w3cplus.com/animation/controlling-css-animations-transitions-javascript.html
+// - 參考 animate 原理 : https://segmentfault.com/a/1190000008570887
+
+function topFunction(scrollNumber) {
   // 若歸零失效，改成使用錨點至 <head>
-  document.body.scrollTop = 0; // For Safari
-  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+  // window.pageYOffset 歸零只有數值等於零，無回到頁面頂部效果
+  // window.pageYOffset = 0;
+
+  // 從目前位置歸零 無延遲效果 
+  document.body.scrollTop = scrollNumber; 
+  document.documentElement.scrollTop = scrollNumber;
+
+  // 如何延長完成時間?
+  // jQuery 
+  // - $('html,body').animate({ scrollTop: 0 }, 1000);
+  // - $('html,body') -> document.documentElement and document.body.scrollTop 
+  // - animate( {} , 1000) -> 原生 JavaScript語法可能長怎樣 ?
 }
 
+// 問題
+// class添加不能使用 className，要用效能更高的 classList.add() ? 差別?
 
-//class添加不能使用className，要用效能更高的classList.add() ? 差別?
+// 動畫延遲效果 -> 使用 jQuery非常快速上手，但是原理概念不懂
+// - 目前已知 每毫秒或每秒跑多少?  設定多久完成動作?

@@ -105,7 +105,9 @@
     <button type="button" class="btn btn-primary rounded-circle py-3 top">TOP</button>
   </main>
 
-  <footer class="bg-primary">
+   <!-- 中間高度不足以撐開頁面，造成底部無法置底 -> 在 layout.scss footer標籤加入視窗高度
+        - 確保在某些裝置上有中間內容有足夠畫面 -->
+  <footer class="bg-primary ">
     <p class="text-center text-dark py-3">~ 沒事多運動‧增加抵抗力 ~</p>
   </footer>
 
