@@ -54,10 +54,10 @@
       <form class="" method="">
         <!-- 不會自動跳轉 target="nm_iframe" -->
         <div class="row  align-items-center ">
-          <div class="col-md-4 d-flex justify-content-end ">
-            <img src="img/BMICLogo.png" alt="" class="img-fluid d-none d-md-block ">
+          <div class="col-md-4 d-flex justify-content-end">
+            <img src="img/BMICLogo.png" alt="" class="img-fluid d-none d-md-block mt-n3">
           </div>
-          <div class="col-md-4 mt-sm-3 d-flex justify-content-center align-items-center flex-column">
+          <div class="col-md-4 col-6 ">
             <div class="input-group  ">
               <div class="input-group-append ">
                 <label for="weight" class="input-group-text bg-light rounded-left ">
@@ -76,7 +76,14 @@
               <input type="number" class="form-control bg-light border-left-0 border-primary" id="height" placeholder=""
                 data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入身高</em>" required>
             </div>
-            <button type="submit" class="btn btn-primary  js-record">看結果</button>
+          </div>
+          <div class="col-md-4 col-6  ">
+            <button type="submit" class="btn btn-primary text-secondary mt-n3 record  js-record ">看結果</button>
+            <div class="result  text-center mt-n3 pt-3 d-none">
+              <h3 class="m-0">20.5</h3>
+              <small class="m-0">BMI</small>
+              <button type="button" class="btn btn-healthy restart ml-5 mt-n2"><img src="img/icons_loop.png" alt="" class="restart__img"></button>
+            </div>
           </div>
         </div>
 
@@ -105,7 +112,7 @@
     <button type="button" class="btn btn-primary rounded-circle py-3 top">TOP</button>
   </main>
 
-   <!-- 中間高度不足以撐開頁面，造成底部無法置底 -> 在 layout.scss footer標籤加入視窗高度
+  <!-- 中間高度不足以撐開頁面，造成底部無法置底 -> 在 layout.scss footer標籤加入視窗高度
         - 確保在某些裝置上有中間內容有足夠畫面 -->
   <footer class="bg-primary ">
     <p class="text-center text-dark py-3">~ 沒事多運動‧增加抵抗力 ~</p>

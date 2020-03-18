@@ -11,6 +11,8 @@
 // - || 優先檢查左邊，若為 true 優先回傳 "第一個"
 var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
 
+// TODO: 改成 function 頁面開啟時先執行一次，當結果按鈕被點擊時也執行一次
+// TODO: reset按鈕刷新頁面，input就會清空
 // 回寫 -> 若有資料則顯示至頁面
 var table__BMI = document.querySelector('.table__BMI');
 var tbody = document.createElement("tbody");
@@ -55,11 +57,6 @@ for (i = bmiArray.length - 1; i >= 0; i--) {
   }
 }
 
-
-// 功能 -> 刷新頁面後，跳至 BMI紀錄之頁面高度
-topFunction(350);
-
-
 // 事件 "click" -> 清空 localStorage資料
 var btnClear = document.querySelector('.js-clear');
 btnClear.addEventListener('click', function () {
@@ -69,7 +66,8 @@ btnClear.addEventListener('click', function () {
 // 事件 "click" -> 計算 BMI並顯示資料
 var btnSubmit = document.querySelector('.js-record');
 btnSubmit.addEventListener('click', function () {
-
+  event.preventDefault();
+  
   // 取得 input元素 "值" -> weight、height
   var weight = document.getElementById('weight').value;
   var height = document.getElementById('height').value;
@@ -109,8 +107,11 @@ btnSubmit.addEventListener('click', function () {
 
     // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
-
+    btnSubmit.style.display = "none";
+    var result = document.querySelector('.result');
+    result.classList.add('d-block','result--healthy');
   }
+  
 });
 
 // 取得 -> 格式化時間

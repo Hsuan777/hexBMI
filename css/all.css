@@ -11438,4 +11438,38 @@ body {
   width: 55px;
   height: 55px;
 }
+
+.record {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.result {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.result--healthy {
+  border: 5px #86D73F solid;
+  background-color: transparent;
+  color: #86D73F;
+}
+
+.restart {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  position: relative;
+  border: 3px #424242 solid;
+  z-index: 9;
+}
+
+.restart__img {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 8px;
+}
 /*# sourceMappingURL=all.css.map */

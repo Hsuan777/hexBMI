@@ -1,5 +1,33 @@
-.logo-sm{
-    width: 55px;
-    height: 55px;
+.logo-sm {
+  width: 55px;
+  height: 55px;
 }
-
+.record {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.result {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  &--healthy {
+    border: 5px theme-color("healthy") solid;
+    background-color: transparent;
+    color: theme-color("healthy");
+  }
+}
+.restart {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  position: relative;
+  border: 3px theme-color("secondary") solid;
+  z-index: 9;
+  &__img {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 8px;
+  }
+}
