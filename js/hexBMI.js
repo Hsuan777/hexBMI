@@ -49,10 +49,13 @@ for (i = bmiArray.length - 1; i >= 0; i--) {
 
   // 判斷 -> 不同數值範圍對應不同 class底色
   if (bmiArray[i].BMI < 18.5) {
+    th.classList.add('text-underweight');
     tr.classList.add('table-underweight');
   } else if (bmiArray[i].BMI >= 18.5 && bmiArray[i].BMI <= 24.9) {
+    th.classList.add('text-success');
     tr.classList.add('table-success');
   } else if (bmiArray[i].BMI > 24.9) {
+    th.classList.add('text-danger');
     tr.classList.add('table-danger');
   }
 }
@@ -85,18 +88,44 @@ btnSubmit.addEventListener('click', function () {
   };
 
   // 判斷 -> 使用者行為
-  if (weight == "") {
+  if (weight === "") {
     alert("請輸入體重");
-  } else if (height == "") {
+  } else if (height === "") {
     alert("請輸入身高");
+  } else if (weight >= 150 || height >= 300 ){
+    alert("請勿亂打");
+    location.reload();
   } else {
+
+    // 回寫 -> 顯示 result 
+    btnSubmit.style.display = "none";
+    var result = document.querySelector('.js-result');
+    var resultBMI = document.querySelector('.js-resultBMI');
+    var resultText = document.querySelector('.js-resultText');
+    var reStart = document.querySelector('.js-reStart');
+    resultBMI.textContent = bmi;
+
     // 判斷 -> bmi 數值範圍並寫入 {bmiRecord}.status 欄位
     if (bmi < 18.5) {
       bmiRecord.status = "過輕";
+      resultText.textContent = "過輕";
+      resultText.classList.add('d-md-block','text-underweight');
+      result.classList.add('d-block','result--underweight');
+      reStart.classList.add('btn-underweight');
     } else if (bmi >= 18.5 && bmi <= 24.9) {
       bmiRecord.status = "理想";
+      resultText.textContent = "理想";
+      resultText.classList.add('d-md-block','text-healthy');
+      result.classList.add('d-block','result--healthy');
+      reStart.classList.add('btn-healthy');
+
     } else if (bmi > 24.9) {
       bmiRecord.status = "危險";
+      resultText.textContent = "危險";
+      resultText.classList.add('d-md-block','text-danger');
+      result.classList.add('d-block','result--danger');
+      reStart.classList.add('btn-danger');
+
     }
 
     // 回傳 時間 -> 按下按鈕當前時間並寫入 {bmiRecord}.recordTime 欄位
@@ -107,11 +136,16 @@ btnSubmit.addEventListener('click', function () {
 
     // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
-    btnSubmit.style.display = "none";
-    var result = document.querySelector('.result');
-    result.classList.add('d-block','result--healthy');
+
+    
   }
   
+});
+
+// 事件 -> 重新整理頁面
+var reStart = document.querySelector('.js-reStart');
+reStart.addEventListener('click', function(){
+  location.reload();
 });
 
 // 取得 -> 格式化時間
@@ -120,15 +154,18 @@ function timeFunction() {
   // year/month/day
   // var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
   
-  var year = todayTime.getFullYear();
-  var month = ("0" + (todayTime.getMonth() + 1)).slice(-2);
-  var day = ("0" + (todayTime.getDate() + 1)).slice(-2);
-  var hour = ("0" + (todayTime.getHours())).slice(-2);
+  var year   = todayTime.getFullYear();
+  var month  = ("0" + (todayTime.getMonth() + 1)).slice(-2);
+  var day    = ("0" + (todayTime.getDate() + 1)).slice(-2);
+  var hour   = ("0" + (todayTime.getHours())).slice(-2);
   var minute = ("0" + todayTime.getMinutes()).slice(-2);
   var second = ("0" + todayTime.getSeconds()).slice(-2);
   var formatTime = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second
   return formatTime;
 }
+
+
+
 
 // 事件 BOM 'onscroll' -> 每當畫面捲動觸發一次 scrollFunction();
 // - 參考網址: https://mrcodingroom.freesite.host/htmlcssjs%E7%B0%A1%E6%98%93%E7%BD%AE%E9%A0%82%E6%8C%89%E9%88%95/

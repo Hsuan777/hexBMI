@@ -77,13 +77,18 @@
                 data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入身高</em>" required>
             </div>
           </div>
-          <div class="col-md-4 col-6  ">
-            <button type="submit" class="btn btn-primary text-secondary mt-n3 record  js-record ">看結果</button>
-            <div class="result  text-center mt-n3 pt-3 d-none">
-              <h3 class="m-0">20.5</h3>
-              <small class="m-0">BMI</small>
-              <button type="button" class="btn btn-healthy restart ml-5 mt-n2"><img src="img/icons_loop.png" alt="" class="restart__img"></button>
+          <div class="col-md-4 col-6 d-flex ">
+            <button type="submit" class="btn btn-primary text-secondary mt-n3 record  js-record ">
+              <span class="h3 ">看結果 </span>
+            </button>
+            <div class="mt-n3 text-center d-none result js-result">
+              <h3 class="js-resultBMI mt-4 mb-0">20.5</h3>
+              <small class="">BMI</small>
+              <button type="button" class="btn reStart js-reStart "><img src="img/icons_loop.png" alt=""
+                  class="reStart__img">
+              </button>
             </div>
+            <h3 class="ml-2 mt-3 js-resultText d-none "></h3>
           </div>
         </div>
 
@@ -97,7 +102,7 @@
       <div class="container ">
         <h2 class="text-center mb-3 js-record-title">BMI 紀錄</h2>
         <div class="table-responsive-lg">
-          <table class="table table-borderless text-center table__BMI text-nowrap">
+          <table class="table  table-hover text-center text-nowrap  table__BMI ">
 
           </table>
         </div>

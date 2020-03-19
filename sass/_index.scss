@@ -3,31 +3,47 @@
   height: 55px;
 }
 .record {
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
 }
 .result {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  position: relative;
   &--healthy {
     border: 5px theme-color("healthy") solid;
     background-color: transparent;
     color: theme-color("healthy");
   }
+  &--underweight {
+    border: 5px theme-color("underweight") solid;
+    background-color: transparent;
+    color: theme-color("underweight");
+  }
+  &--danger {
+    border: 5px theme-color("danger") solid;
+    background-color: transparent;
+    color: theme-color("danger");
+  }
 }
-.restart {
+.reStart {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  position: relative;
   border: 3px theme-color("secondary") solid;
   z-index: 9;
+  position: absolute;
+  top: 60%;
+  right: -10px;
   &__img {
     content: "";
     position: absolute;
     top: 6px;
     left: 8px;
   }
+}
+.border{
+ border: 20px black solid;
 }

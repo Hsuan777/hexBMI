@@ -11440,8 +11440,8 @@ body {
 }
 
 .record {
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
 }
 
@@ -11449,6 +11449,7 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  position: relative;
 }
 
 .result--healthy {
@@ -11457,19 +11458,37 @@ body {
   color: #86D73F;
 }
 
-.restart {
+.result--underweight {
+  border: 5px #31BAF9 solid;
+  background-color: transparent;
+  color: #31BAF9;
+}
+
+.result--danger {
+  border: 5px #FF1200 solid;
+  background-color: transparent;
+  color: #FF1200;
+}
+
+.reStart {
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  position: relative;
   border: 3px #424242 solid;
   z-index: 9;
+  position: absolute;
+  top: 60%;
+  right: -10px;
 }
 
-.restart__img {
+.reStart__img {
   content: "";
   position: absolute;
   top: 6px;
   left: 8px;
+}
+
+.border {
+  border: 20px black solid;
 }
 /*# sourceMappingURL=all.css.map */
