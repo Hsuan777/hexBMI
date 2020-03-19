@@ -11,8 +11,6 @@
 // - || 優先檢查左邊，若為 true 優先回傳 "第一個"
 var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
 
-// TODO: 改成 function 頁面開啟時先執行一次，當結果按鈕被點擊時也執行一次
-// TODO: reset按鈕刷新頁面，input就會清空
 // 回寫 -> 若有資料則顯示至頁面
 var table__BMI = document.querySelector('.table__BMI');
 var tbody = document.createElement("tbody");
@@ -92,12 +90,12 @@ btnSubmit.addEventListener('click', function () {
     alert("請輸入體重");
   } else if (height === "") {
     alert("請輸入身高");
-  } else if (weight >= 150 || height >= 300 ){
+  } else if (bmi >= 35 || bmi <= 15 ){
     alert("請勿亂打");
     location.reload();
   } else {
 
-    // 回寫 -> 顯示 result 
+    // 取得 網頁元素 -> 判斷後顯示 result 
     btnSubmit.style.display = "none";
     var result = document.querySelector('.js-result');
     var resultBMI = document.querySelector('.js-resultBMI');
@@ -105,27 +103,28 @@ btnSubmit.addEventListener('click', function () {
     var reStart = document.querySelector('.js-reStart');
     resultBMI.textContent = bmi;
 
-    // 判斷 -> bmi 數值範圍並寫入 {bmiRecord}.status 欄位
+    // 判斷 -> bmi 數值範圍
+    // - 寫入 {bmiRecord}.status 欄位
+    // - 寫入 對應 class
     if (bmi < 18.5) {
       bmiRecord.status = "過輕";
+      result.classList.add('d-block','result--underweight');
       resultText.textContent = "過輕";
       resultText.classList.add('d-md-block','text-underweight');
-      result.classList.add('d-block','result--underweight');
       reStart.classList.add('btn-underweight');
     } else if (bmi >= 18.5 && bmi <= 24.9) {
       bmiRecord.status = "理想";
+      result.classList.add('d-block','result--healthy');
       resultText.textContent = "理想";
       resultText.classList.add('d-md-block','text-healthy');
-      result.classList.add('d-block','result--healthy');
       reStart.classList.add('btn-healthy');
 
     } else if (bmi > 24.9) {
       bmiRecord.status = "危險";
+      result.classList.add('d-block','result--danger');
       resultText.textContent = "危險";
       resultText.classList.add('d-md-block','text-danger');
-      result.classList.add('d-block','result--danger');
       reStart.classList.add('btn-danger');
-
     }
 
     // 回傳 時間 -> 按下按鈕當前時間並寫入 {bmiRecord}.recordTime 欄位
@@ -136,10 +135,7 @@ btnSubmit.addEventListener('click', function () {
 
     // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
-
-    
   }
-  
 });
 
 // 事件 -> 重新整理頁面
@@ -147,6 +143,16 @@ var reStart = document.querySelector('.js-reStart');
 reStart.addEventListener('click', function(){
   location.reload();
 });
+
+
+
+
+// 事件 BOM 'onscroll' -> 每當畫面捲動觸發一次 scrollFunction();
+// - 參考網址: https://mrcodingroom.freesite.host/htmlcssjs%E7%B0%A1%E6%98%93%E7%BD%AE%E9%A0%82%E6%8C%89%E9%88%95/
+window.onscroll = function () {
+  scrollFunction();
+};
+
 
 // 取得 -> 格式化時間
 function timeFunction() {
@@ -164,14 +170,6 @@ function timeFunction() {
   return formatTime;
 }
 
-
-
-
-// 事件 BOM 'onscroll' -> 每當畫面捲動觸發一次 scrollFunction();
-// - 參考網址: https://mrcodingroom.freesite.host/htmlcssjs%E7%B0%A1%E6%98%93%E7%BD%AE%E9%A0%82%E6%8C%89%E9%88%95/
-window.onscroll = function () {
-  scrollFunction();
-};
 // 功能 -> 網頁捲動超過 100pixel顯示
 function scrollFunction() {
   var top = document.querySelector('.top');
@@ -189,13 +187,11 @@ function scrollFunction() {
   top.addEventListener('click', function (event) {
     event.preventDefault();
     topFunction(0);
-
   }, false)
 }
 
 
-// 功能 -> 改變 scrollTop的值
-// - 指定數值則可到頁面中某一位置
+// 功能 -> 指定 scrollTop的值，可到頁面中某一位置
 // - 由於 scrollTop屬於 DOM的一種，若了解 animation原理，能有更多效果
 // - 參考 動畫與過度 : https://www.w3cplus.com/animation/controlling-css-animations-transitions-javascript.html
 // - 參考 animate 原理 : https://segmentfault.com/a/1190000008570887 
