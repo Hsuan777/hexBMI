@@ -82,36 +82,42 @@ function pageNumber(num) {
       newPageItem.appendChild(newPageLink).appendChild(newPageNum);
       pagination.insertBefore(newPageItem, refPageItem);
     }
+    // 改讓外層 myList 來監聽 click 事件
+    // - 參考 https://ithelp.ithome.com.tw/articles/10192015
+    pagination.addEventListener('click', function (e) {
 
+      // 判斷目標元素若是 li 則執行 console.log
+      if (e.target.tagName.toLowerCase() === 'a') {
+        console.log(e.target); 
+        console.log(e.target.tagName); // A
+        console.log(e.target.textContent);
+        var tr = document.querySelectorAll("tr");
+        for (i = 0; i < tr.length; i++) {
+          tbody.removeChild(tr[i]);
+        }
+        updateBMI(parseInt(e.target.textContent));
+      }
+      // TODO:上一頁、下一頁
+    }, false);
   }
-
-
 }
 
 pageNumber(bmiArray.length);
 updateBMI(1);
 
 // TODO: 第三頁 ， 會造成往下新增而不是更新頁面
-var pageLinkNumber = document.querySelectorAll('.page-link');
+// var pageLinkNumber = document.querySelectorAll('.page-link');
 
-pageLinkNumber[1].addEventListener('click', function () {
-  event.preventDefault();
-  var tr = document.querySelectorAll("tr");
-  for (i = 0; i < tr.length; i++) {
-    tbody.removeChild(tr[i]);
-  }
-  console.log(parseInt(pageLinkNumber[1].textContent));
-  updateBMI(parseInt(pageLinkNumber[1].textContent));
-});
-pageLinkNumber[2].addEventListener('click', function () {
-  event.preventDefault();
-  var tr = document.querySelectorAll("tr");
-  for (i = 0; i < tr.length; i++) {
-    tbody.removeChild(tr[i]);
-  }
-  console.log(parseInt(pageLinkNumber[2].textContent));
-  updateBMI(parseInt(pageLinkNumber[2].textContent));
-});
+// pageLinkNumber[1].addEventListener('click', function () {
+//   event.preventDefault();
+//   var tr = document.querySelectorAll("tr");
+//   for (i = 0; i < tr.length; i++) {
+//     tbody.removeChild(tr[i]);
+//   }
+//   console.log(parseInt(pageLinkNumber[1].textContent));
+//   updateBMI(parseInt(pageLinkNumber[1].textContent));
+// });
+
 
 
 
