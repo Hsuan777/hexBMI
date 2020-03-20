@@ -10,7 +10,7 @@
 // - 要使用資料時，再將資料轉成 "陣列"
 // - || 優先檢查左邊，若為 true 優先回傳 "第一個"
 var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
-var bmiArrayReverse = bmiArray.reverse();
+console.log(bmiArray);
 // 回寫 -> 若有資料則顯示至頁面，若無則顯示文字
 var table__BMI = document.querySelector('.table__BMI');
 var tbody = document.createElement("tbody");
@@ -82,7 +82,7 @@ function pageNumber(num) {
       newPageItem.appendChild(newPageLink).appendChild(newPageNum);
       pagination.insertBefore(newPageItem, refPageItem);
     }
-    
+
   }
 
 
@@ -93,10 +93,26 @@ updateBMI(1);
 
 // TODO: 第三頁 ， 會造成往下新增而不是更新頁面
 var pageLinkNumber = document.querySelectorAll('.page-link');
+
 pageLinkNumber[1].addEventListener('click', function () {
   event.preventDefault();
-  updateBMI(pageLinkNumber[1].textContent);
+  var tr = document.querySelectorAll("tr");
+  for (i = 0; i < tr.length; i++) {
+    tbody.removeChild(tr[i]);
+  }
+  console.log(parseInt(pageLinkNumber[1].textContent));
+  updateBMI(parseInt(pageLinkNumber[1].textContent));
 });
+pageLinkNumber[2].addEventListener('click', function () {
+  event.preventDefault();
+  var tr = document.querySelectorAll("tr");
+  for (i = 0; i < tr.length; i++) {
+    tbody.removeChild(tr[i]);
+  }
+  console.log(parseInt(pageLinkNumber[2].textContent));
+  updateBMI(parseInt(pageLinkNumber[2].textContent));
+});
+
 
 
 function updateBMI(num) {
@@ -134,20 +150,20 @@ function updateBMI(num) {
       tr.appendChild(tdTime);
 
       th.className = 'font-weight-bold';
-      th.textContent = bmiArrayReverse[i].status;
-      tdBMI.textContent = 'BMI : ' + bmiArrayReverse[i].BMI;
-      tdWeight.textContent = '體重 : ' + bmiArrayReverse[i].weight;
-      tdHeight.textContent = '身高 : ' + bmiArrayReverse[i].height;
-      tdTime.textContent = '紀錄時間 : ' + bmiArrayReverse[i].recordTime;
+      th.textContent = bmiArray[i].status;
+      tdBMI.textContent = 'BMI : ' + bmiArray[i].BMI;
+      tdWeight.textContent = '體重 : ' + bmiArray[i].weight;
+      tdHeight.textContent = '身高 : ' + bmiArray[i].height;
+      tdTime.textContent = '紀錄時間 : ' + bmiArray[i].recordTime;
 
       // 判斷 -> 不同數值範圍對應不同 class底色
-      if (bmiArrayReverse[i].BMI < 18.5) {
+      if (bmiArray[i].BMI < 18.5) {
         th.classList.add('text-underweight');
         tr.classList.add('table-underweight');
-      } else if (bmiArrayReverse[i].BMI >= 18.5 && bmiArrayReverse[i].BMI <= 24.9) {
+      } else if (bmiArray[i].BMI >= 18.5 && bmiArray[i].BMI <= 24.9) {
         th.classList.add('text-success');
         tr.classList.add('table-success');
-      } else if (bmiArrayReverse[i].BMI > 24.9) {
+      } else if (bmiArray[i].BMI > 24.9) {
         th.classList.add('text-danger');
         tr.classList.add('table-danger');
       }
@@ -262,7 +278,7 @@ function timeFunction() {
 
   var year = todayTime.getFullYear();
   var month = ("0" + (todayTime.getMonth() + 1)).slice(-2);
-  var day = ("0" + (todayTime.getDate() + 1)).slice(-2);
+  var day = ("0" + (todayTime.getDate())).slice(-2);
   var hour = ("0" + (todayTime.getHours())).slice(-2);
   var minute = ("0" + todayTime.getMinutes()).slice(-2);
   var second = ("0" + todayTime.getSeconds()).slice(-2);
