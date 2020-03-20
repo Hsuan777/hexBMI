@@ -81,45 +81,43 @@ function pageNumber(num) {
       var newPageNum = document.createTextNode(i + 1);
       newPageItem.appendChild(newPageLink).appendChild(newPageNum);
       pagination.insertBefore(newPageItem, refPageItem);
-    }   
-    updateBMI(1); 
+    }
+    
   }
-  return Math.ceil(num / 10);
+
 
 }
-// 存入變數也會執行 ?
-var pageTotal = pageNumber(bmiArray.length);
-// console.log(pageTotal);
 
+pageNumber(bmiArray.length);
+updateBMI(1);
+
+// TODO: 第三頁 ， 會造成往下新增而不是更新頁面
 var pageLinkNumber = document.querySelectorAll('.page-link');
-// 第二頁
-// pageLinkNumber[2].addEventListener('click', function(){
-//   event.preventDefault();
-//   upDataBMI(pageLinkNumber[2].textContent * 10);
-// });
-// TODO: 建立正確參數
+pageLinkNumber[1].addEventListener('click', function () {
+  event.preventDefault();
+  updateBMI(pageLinkNumber[1].textContent);
+});
 
-// updateBMI(1);
 
 function updateBMI(num) {
 
   if (num === 0) {
-    return ;
-  }else{
-    var lastLength = (num*10)-1;
-    if (num === 1){
-      lastLength = bmiArray.length % 10; 
+    return;
+  } else {
+    var lastLength = '';
+    var pageTotal = Math.ceil(bmiArray.length / 10);
+    // 小於 10 筆資料
+    // 滿 10 筆資料且不是最後一頁
+    // 最後一頁且有餘數
+    if (bmiArray.length < 10) {
+      lastLength = bmiArray.length % 10;
+    } else if (bmiArray.length % 10 === 0 || num !== pageTotal) {
+      lastLength = num * 10;
+    } else if (bmiArray.length % 10 !== 0 && num === pageTotal) {
+      lastLength = (num - 1) * 10 + bmiArray.length % 10;
     }
-    if (num === pageTotal){
-      lastLength = lastLength + bmiArray.length % 10; 
-    }
-    // 1 0~9    
-    // 2 10~19 
-    // 3 20~29 若只有 25筆資料，不能跑空的 4筆資料 
-    // i < (num*10)-1 不能大於真實長度
-    // 第一頁10筆 第二頁10筆 第三頁 5筆 25 % 10 =5 ，最後一頁 length只能是 bmiArray.length % 10
-    // 新增至第10筆會不見
-    for (i = (num-1) * 10; i < lastLength; i++) {
+
+    for (i = (num - 1) * 10; i < lastLength; i++) {
       // - createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
       // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
       var tr = document.createElement("tr");
@@ -134,14 +132,14 @@ function updateBMI(num) {
       tr.appendChild(tdWeight);
       tr.appendChild(tdHeight);
       tr.appendChild(tdTime);
-  
+
       th.className = 'font-weight-bold';
       th.textContent = bmiArrayReverse[i].status;
       tdBMI.textContent = 'BMI : ' + bmiArrayReverse[i].BMI;
       tdWeight.textContent = '體重 : ' + bmiArrayReverse[i].weight;
       tdHeight.textContent = '身高 : ' + bmiArrayReverse[i].height;
       tdTime.textContent = '紀錄時間 : ' + bmiArrayReverse[i].recordTime;
-  
+
       // 判斷 -> 不同數值範圍對應不同 class底色
       if (bmiArrayReverse[i].BMI < 18.5) {
         th.classList.add('text-underweight');
@@ -154,7 +152,7 @@ function updateBMI(num) {
         tr.classList.add('table-danger');
       }
     }
-  } 
+  }
 }
 
 
