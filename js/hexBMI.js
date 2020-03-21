@@ -85,27 +85,84 @@ function pageNumber(num) {
     // 改讓外層 myList 來監聽 click 事件
     // - 參考 https://ithelp.ithome.com.tw/articles/10192015
     pagination.addEventListener('click', function (e) {
-
-      // 判斷目標元素若是 li 則執行 console.log
+      // 判斷目標元素若是 a 則執行 console.log
       if (e.target.tagName.toLowerCase() === 'a') {
-        console.log(e.target); 
+        console.log(e.target);
         console.log(e.target.tagName); // A
-        console.log(e.target.textContent);
         var tr = document.querySelectorAll("tr");
         for (i = 0; i < tr.length; i++) {
           tbody.removeChild(tr[i]);
         }
         updateBMI(parseInt(e.target.textContent));
+        var pageArray = [parseInt(e.target.textContent)];
+        localStorage.setItem('pageLinkNumber', JSON.stringify(pageArray));
       }
+
       // TODO:上一頁、下一頁
     }, false);
   }
 }
-
 pageNumber(bmiArray.length);
-updateBMI(1);
 
-// TODO: 第三頁 ， 會造成往下新增而不是更新頁面
+var pageLocalArray = JSON.parse(localStorage.getItem('pageLinkNumber')) || [1];
+updateBMI(pageLocalArray[0]);
+
+var pageLink = document.querySelectorAll('.page-link');
+pageLink[0].addEventListener('click', function () {
+
+  if (pageLocalArray[0] === 1) {
+    alert('沒資料囉 !')
+    return;
+  } else {
+    pageLocalArray[0] = pageLocalArray[0] - 1;
+    localStorage.setItem('pageLinkNumber', JSON.stringify(pageLocalArray));
+    var tr = document.querySelectorAll("tr");
+    for (i = 0; i < tr.length; i++) {
+      tbody.removeChild(tr[i]);
+    }
+    updateBMI(parseInt(pageLocalArray[0]));
+    // location.reload();
+  }
+
+});
+var pageLink = document.querySelectorAll('.page-link');
+console.log(pageLink[pageLink.length - 1]);
+pageLink[pageLink.length - 1].addEventListener('click', function () {
+  if (pageLocalArray[0] === pageLink.length - 2) {
+    alert('沒資料囉 !')
+    return;
+  } else {
+    pageLocalArray[0] = pageLocalArray[0] + 1;
+    localStorage.setItem('pageLinkNumber', JSON.stringify(pageLocalArray));
+    var tr = document.querySelectorAll("tr");
+    for (i = 0; i < tr.length; i++) {
+      tbody.removeChild(tr[i]);
+    }
+    updateBMI(parseInt(pageLocalArray[0]));
+    // location.reload();
+  }
+});
+
+
+
+
+// var previous = document.querySelector('[aria-label="Previous"]');
+// previous.addEventListener('click', function () {
+//   var tr = document.querySelectorAll("tr");
+//   for (i = 0; i < tr.length; i++) {
+//     tbody.removeChild(tr[i]);
+//   }
+//   updateBMI(parseInt(page-1));
+// })
+// var previous = document.querySelector('[aria-label="Next"]');
+// previous.addEventListener('click', function () {
+//   var tr = document.querySelectorAll("tr");
+//   for (i = 0; i < tr.length; i++) {
+//     tbody.removeChild(tr[i]);
+//   }
+//   updateBMI(parseInt(page+1));
+// })
+
 // var pageLinkNumber = document.querySelectorAll('.page-link');
 
 // pageLinkNumber[1].addEventListener('click', function () {
@@ -122,7 +179,6 @@ updateBMI(1);
 
 
 function updateBMI(num) {
-
   if (num === 0) {
     return;
   } else {
