@@ -9,6 +9,8 @@
 // - 由於瀏覽器只支援字串，必須先轉成 "字串" 再存入
 // - 要使用資料時，再將資料轉成 "陣列"
 // - || 優先檢查左邊，若為 true 優先回傳 "第一個"
+// TODO:反轉陣列再存入會有邏輯錯誤 ，如何先顯示第一筆資料，後續排列無錯誤
+// 若無資料並直接使用 reverse()，會錯誤
 var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
 console.log(bmiArray);
 // 回寫 -> 若有資料則顯示至頁面，若無則顯示文字
@@ -97,8 +99,6 @@ function pageNumber(num) {
         var pageArray = [parseInt(e.target.textContent)];
         localStorage.setItem('pageLinkNumber', JSON.stringify(pageArray));
       }
-
-      // TODO:上一頁、下一頁
     }, false);
   }
 }
@@ -182,8 +182,10 @@ function updateBMI(num) {
   if (num === 0) {
     return;
   } else {
+    
     var lastLength = '';
     var pageTotal = Math.ceil(bmiArray.length / 10);
+    // TODO: 可新增 5筆、15筆、20筆資料
     // 小於 10 筆資料
     // 滿 10 筆資料且不是最後一頁
     // 最後一頁且有餘數
@@ -194,8 +196,9 @@ function updateBMI(num) {
     } else if (bmiArray.length % 10 !== 0 && num === pageTotal) {
       lastLength = (num - 1) * 10 + bmiArray.length % 10;
     }
-
-    for (i = (num - 1) * 10; i < lastLength; i++) {
+    // 順向 for (i = (num - 1) * 10; i < lastLength; i++)
+    // 反向 for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--)
+    for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--) {
       // - createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
       // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
       var tr = document.createElement("tr");
@@ -210,7 +213,6 @@ function updateBMI(num) {
       tr.appendChild(tdWeight);
       tr.appendChild(tdHeight);
       tr.appendChild(tdTime);
-
       th.className = 'font-weight-bold';
       th.textContent = bmiArray[i].status;
       tdBMI.textContent = 'BMI : ' + bmiArray[i].BMI;
@@ -313,6 +315,10 @@ btnSubmit.addEventListener('click', function () {
 
     // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
+
+    // 強迫跳傳至第一頁
+    // pageLocalArray[0] = 1;
+    // localStorage.setItem('pageLinkNumber', JSON.stringify(pageLocalArray));
   }
 });
 
@@ -401,3 +407,7 @@ function topFunction(scrollNumber) {
 // - $('html,body') -> document.documentElement and document.body.scrollTop 
 // - animate( {} , 1000) -> 原生 JavaScript語法可能長怎樣 ?
 // - 目前已知 每毫秒或每秒跑多少?  設定多久完成動作 ?
+
+var test = [1,2,3,4,5];
+test.reverse();
+console.log(test);
