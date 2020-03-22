@@ -11488,7 +11488,7 @@ body {
   left: 8px;
 }
 
-.border {
-  border: 20px black solid;
+.page-link {
+  cursor: pointer;
 }
 /*# sourceMappingURL=all.css.map */
