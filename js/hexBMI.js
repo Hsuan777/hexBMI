@@ -110,7 +110,7 @@ updateBMI(pageLocalArray[0]);
 var pageLink = document.querySelectorAll('.page-link');
 pageLink[0].addEventListener('click', function () {
 
-  if (pageLocalArray[0] === 1) {
+  if (pageLocalArray[0] - 1 === 0) {
     alert('沒資料囉 !')
     return;
   } else {
@@ -128,7 +128,7 @@ pageLink[0].addEventListener('click', function () {
 var pageLink = document.querySelectorAll('.page-link');
 console.log(pageLink[pageLink.length - 1]);
 pageLink[pageLink.length - 1].addEventListener('click', function () {
-  if (pageLocalArray[0] === pageLink.length - 2) {
+  if (pageLocalArray[0] + 1 === pageLink.length -1) {
     alert('沒資料囉 !')
     return;
   } else {
