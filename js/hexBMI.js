@@ -345,11 +345,13 @@ function topFunction(scrollNumber) {
 }
 
 
-// ? class添加不能使用 className，要用效能更高的 classList.add() ? 差別?
+// ? 問題
+// - className ; classList.add()
+// - 怎樣的情況較適合哪一種 ? 會有效率問題嗎 ?
 
-// ? 如何延長完成時間?
+// ? 問題 -> 如何延長完成時間 ?
 //   jQuery 
 // - $('html,body').animate({ scrollTop: 0 }, 1000);
 // - $('html,body') -> document.documentElement and document.body.scrollTop 
 // - animate( {} , 1000) -> 原生 JavaScript語法可能長怎樣 ?
-// - 目前已知 每毫秒或每秒跑多少?  設定多久完成動作 ?
+// - 目前方向 每毫秒或每秒跑多少?  設定多久完成動作 ?
