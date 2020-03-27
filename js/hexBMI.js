@@ -279,9 +279,6 @@ function updateBMI(num) {
 
 
 
-
-
-
 // 功能 -> 取得並格式化時間
 function timeFunction() {
   var todayTime = new Date();
