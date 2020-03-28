@@ -11,7 +11,6 @@
 // - 要使用資料時，再將資料轉成 "陣列"
 // - || 優先檢查左邊，若為 true 優先回傳 "第一個"
 var bmiArray = JSON.parse(localStorage.getItem('bmiRecord')) || [];
-console.log(bmiArray);
 // 判斷 & 組字串 -> 若有資料則顯示至頁面，若無則顯示文字
 var table__BMI = document.querySelector('.table__BMI');
 var tbody = document.createElement("tbody");
@@ -28,8 +27,9 @@ if (bmiArray.length === 0) {
 // - 預設第一頁
 var pageLocalArray = JSON.parse(localStorage.getItem('pageLinkNumber')) || [1];
 pageNumber(bmiArray.length);
-updateBMI(pageLocalArray[0]);
 
+
+updateBMI(pageLocalArray[0]);
 
 // 事件 "click" -> 計算 BMI並顯示資料
 var btnSubmit = document.querySelector('.js-record');
@@ -130,7 +130,7 @@ pageLink[0].addEventListener('click', function () {
 
 });
 pageLink[pageLink.length - 1].addEventListener('click', function () {
-  if (pageLocalArray[0] + 1 === pageLink.length -1) {
+  if (pageLocalArray[0] + 1 === pageLink.length - 1) {
     alert('最後一頁囉 !')
     return;
   } else {
@@ -152,6 +152,31 @@ btnClear.addEventListener('click', function () {
   localStorage.clear('bmiRecord');
   location.reload();
 }, false);
+
+// 事件 "click" -> 從移除資料
+tbody.addEventListener('click', function (e) {
+  var removeNode = document.querySelectorAll('.js-removeData');
+  e.stopPropagation
+  if (e.target.tagName.toLowerCase() === 'a') {
+    event.preventDefault();
+    // console.log( e.target.value); a 本身沒有 value可選
+
+    for (i = 0; i < bmiArray.length; i++) {
+      if (e.target.getAttribute('value') === bmiArray[i].recordTime) {
+        console.log([i].recordTime)
+        console.log(e.target.getAttribute('value'));
+        bmiArray.splice([i], 1); // 刪除項目的位置, 刪除一個
+        localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
+        break;
+      }
+    }
+    if (bmiArray.length % 10 === 0 && bmiArray.length !== 0) {
+      pageLocalArray[0] = pageLocalArray[0] - 1;
+      localStorage.setItem('pageLinkNumber', JSON.stringify(pageLocalArray));
+    }
+    location.reload();
+  }
+})
 
 
 // 事件 -> 重新整理頁面
@@ -223,10 +248,9 @@ function updateBMI(num) {
   if (num === 0) {
     return;
   } else {
-    
+
     var lastLength = '';
     var pageTotal = Math.ceil(bmiArray.length / 10);
-    // TODO: 可新增 5筆、15筆、20筆資料
     // - 小於 10 筆資料
     // - 滿 10 筆資料且不是最後一頁
     // - 最後一頁且有餘數
@@ -239,7 +263,7 @@ function updateBMI(num) {
     }
     // - 順向 for (i = (num - 1) * 10; i < lastLength; i++)
     // - 反向 for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--)
-    for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--) {
+    for (i = (num - 1) * 10; i < lastLength; i++) {
       // ? createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
       // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
       var tr = document.createElement("tr");
@@ -248,18 +272,26 @@ function updateBMI(num) {
       var tdWeight = document.createElement("td");
       var tdHeight = document.createElement("td");
       var tdTime = document.createElement("td");
-      tbody.appendChild(tr);
-      tr.appendChild(th);
-      tr.appendChild(tdBMI);
-      tr.appendChild(tdWeight);
-      tr.appendChild(tdHeight);
-      tr.appendChild(tdTime);
+      var tdRemove = document.createElement("td");
+      var removeData = document.createElement("a");
       th.className = 'font-weight-bold';
       th.textContent = bmiArray[i].status;
       tdBMI.textContent = 'BMI : ' + bmiArray[i].BMI;
       tdWeight.textContent = '體重 : ' + bmiArray[i].weight;
       tdHeight.textContent = '身高 : ' + bmiArray[i].height;
       tdTime.textContent = '紀錄時間 : ' + bmiArray[i].recordTime;
+      removeData.setAttribute('href', '#');
+      removeData.setAttribute('value', bmiArray[i].recordTime);
+      removeData.classList.add('text-secondary', 'js-removeData');
+      removeData.textContent = 'Remove';
+      tbody.appendChild(tr);
+      tr.appendChild(th);
+      tr.appendChild(tdBMI);
+      tr.appendChild(tdWeight);
+      tr.appendChild(tdHeight);
+      tr.appendChild(tdTime);
+      tr.appendChild(tdRemove).appendChild(removeData);
+
 
       // 判斷 -> 不同數值範圍對應不同 class底色
       if (bmiArray[i].BMI < 18.5) {
