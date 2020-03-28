@@ -155,12 +155,10 @@ btnClear.addEventListener('click', function () {
 
 // 事件 "click" -> 從移除資料
 tbody.addEventListener('click', function (e) {
-  var removeNode = document.querySelectorAll('.js-removeData');
-  e.stopPropagation
+  // 改成 span會因為區域太小點不到
   if (e.target.tagName.toLowerCase() === 'a') {
     event.preventDefault();
     // console.log( e.target.value); a 本身沒有 value可選
-
     for (i = 0; i < bmiArray.length; i++) {
       if (e.target.getAttribute('value') === bmiArray[i].recordTime) {
         console.log([i].recordTime)
@@ -176,7 +174,7 @@ tbody.addEventListener('click', function (e) {
     }
     location.reload();
   }
-})
+},false)
 
 
 // 事件 -> 重新整理頁面
@@ -263,7 +261,7 @@ function updateBMI(num) {
     }
     // - 順向 for (i = (num - 1) * 10; i < lastLength; i++)
     // - 反向 for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--)
-    for (i = (num - 1) * 10; i < lastLength; i++) {
+    for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--) {
       // ? createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
       // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
       var tr = document.createElement("tr");
@@ -280,10 +278,11 @@ function updateBMI(num) {
       tdWeight.textContent = '體重 : ' + bmiArray[i].weight;
       tdHeight.textContent = '身高 : ' + bmiArray[i].height;
       tdTime.textContent = '紀錄時間 : ' + bmiArray[i].recordTime;
+      tdTime.classList.add('w-25')
       removeData.setAttribute('href', '#');
       removeData.setAttribute('value', bmiArray[i].recordTime);
       removeData.classList.add('text-secondary', 'js-removeData');
-      removeData.textContent = 'Remove';
+      removeData.innerHTML = 'DEL';
       tbody.appendChild(tr);
       tr.appendChild(th);
       tr.appendChild(tdBMI);
