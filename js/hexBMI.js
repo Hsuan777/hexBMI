@@ -23,13 +23,26 @@ if (bmiArray.length === 0) {
   tbody.appendChild(tagNodata);
 }
 
-// 取得目前頁數，執行自動分頁，更新頁數資料
-// - 預設第一頁
+
+// ***** 預先執行 ***** //
+
+// - 取得目前頁數
+// - 執行自動分頁
+// - 更新頁數資料，預設第一頁
 var pageLocalArray = JSON.parse(localStorage.getItem('pageLinkNumber')) || [1];
 pageNumber(bmiArray.length);
-
-
 updateBMI(pageLocalArray[0]);
+
+
+
+
+
+
+
+
+
+
+// ***** 監聽事件 ***** //
 
 // 事件 "click" -> 計算 BMI並顯示資料
 var btnSubmit = document.querySelector('.js-record');
@@ -94,7 +107,7 @@ btnSubmit.addEventListener('click', function () {
       reStart.classList.add('btn-danger');
     }
 
-    // 回傳 時間 -> 按下按鈕當前時間並寫入 {bmiRecord}.recordTime 欄位
+    // 取得 時間 -> 按下按鈕當前時間並寫入 {bmiRecord}.recordTime 欄位
     bmiRecord.recordTime = timeFunction();
 
     // 建立 陣列新資料 -> 存放至 bmiArray[]
@@ -102,17 +115,12 @@ btnSubmit.addEventListener('click', function () {
 
     // 建立 BOM localStorage新資料 -> 轉成字串後，存放至瀏覽器 localStorage
     localStorage.setItem('bmiRecord', JSON.stringify(bmiArray));
-
-    // 強迫跳傳至第一頁
-    // pageLocalArray[0] = 1;
-    // localStorage.setItem('pageLinkNumber', JSON.stringify(pageLocalArray));
-    // 跟重新整理按鈕意義衝突
   }
 });
 
 
 // 事件 -> 點擊上下頁
-// TODO: 直接點擊第二頁，pageLocalArray[0] - 1 === 0 為 true
+// - 上一頁
 var pageLink = document.querySelectorAll('.page-link');
 pageLink[0].addEventListener('click', function () {
   if (pageLocalArray[0] - 1 === 0) {
@@ -127,8 +135,10 @@ pageLink[0].addEventListener('click', function () {
     }
     updateBMI(pageLocalArray[0]);
   }
-
 });
+
+
+// - 下一頁
 pageLink[pageLink.length - 1].addEventListener('click', function () {
   if (pageLocalArray[0] + 1 === pageLink.length - 1) {
     alert('最後一頁囉 !')
@@ -152,6 +162,7 @@ btnClear.addEventListener('click', function () {
   localStorage.clear('bmiRecord');
   location.reload();
 }, false);
+
 
 // 事件 "click" -> 從移除資料
 tbody.addEventListener('click', function (e) {
@@ -194,6 +205,13 @@ window.onscroll = function () {
 
 
 
+
+
+
+
+
+// ***** function ***** //
+
 // 功能 -> 自動分頁
 // - 主要代入 bmiArray.length，計算分頁
 // - 預設 10筆資料
@@ -218,7 +236,7 @@ function pageNumber(num) {
       pagination.insertBefore(newPageItem, refPageItem);
     }
     // - 讓外層 myList 來監聽 click 事件，並由它來抓取目標
-    // - 參考 https://ithelp.ithome.com.tw/articles/10192015
+    // - 額外參考 https://ithelp.ithome.com.tw/articles/10192015
     pagination.addEventListener('click', function (e) {
       // 判斷 -> 目標元素若是 a 則執行 
       if (e.target.tagName.toLowerCase() === 'a') {
@@ -239,14 +257,11 @@ function pageNumber(num) {
 }
 
 
-
-
 // 功能 -> 更新分頁顯示資料
 function updateBMI(num) {
   if (num === 0) {
     return;
   } else {
-
     var lastLength = '';
     var pageTotal = Math.ceil(bmiArray.length / 10);
     // - 小於 10 筆資料
@@ -262,7 +277,7 @@ function updateBMI(num) {
     // - 順向 for (i = (num - 1) * 10; i < lastLength; i++)
     // - 反向 for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--)
     for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--) {
-      // ? createTextNode or textContent ? -> 視情況使用，同一節點多行文字，或是改變整段文字
+      // ? createTextNode or textContent ? -> 同一節點多行文字，或是改變整段文字
       // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
       var tr = document.createElement("tr");
       var th = document.createElement("th");
@@ -308,13 +323,12 @@ function updateBMI(num) {
 }
 
 
-
-
 // 功能 -> 取得並格式化時間
 function timeFunction() {
   var todayTime = new Date();
   // year/month/day
   // var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
+console.log(todayTime)
 
   var year = todayTime.getFullYear();
   var month = ("0" + (todayTime.getMonth() + 1)).slice(-2);
@@ -373,7 +387,7 @@ function topFunction(scrollNumber) {
 
 // ? 問題
 // - className ; classList.add()
-// - 怎樣的情況較適合哪一種 ? 會有效率問題嗎 ?
+// - 怎樣的情況較適合哪一種 ? 會有網頁效率問題嗎 ?
 
 // ? 問題 -> 如何延長完成時間 ?
 //   jQuery 
