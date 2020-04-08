@@ -185,12 +185,28 @@ tbody.addEventListener('click', function (e) {
     }
     location.reload();
   }
-},false)
+}, false)
 
 
 // 事件 -> 重新整理頁面
 var reStart = document.querySelector('.js-reStart');
+// var formBMI = document.getElementById('js-formBMI');
 reStart.addEventListener('click', function () {
+  // btnSubmit.style.display = "block";
+  // let result = document.querySelector('.js-result');
+  // let resultText = document.querySelector('.js-resultText')
+  // let reStart = document.querySelector('.js-reStart')
+  // result.classList.remove('d-block', 'result--underweight', 'result--healthy', 'result--danger');
+  // resultText.classList.remove('d-md-block', 'text-underweight', 'text-healthy', 'text-danger')
+  // reStart.classList.remove('d-block', 'btn-underweight', 'btn-healthy', 'btn-danger')
+  // pageLocalArray[0] = 1;
+  // localStorage.setItem('pageLinkNumber', JSON.stringify(pageLocalArray));
+  // var tr = document.querySelectorAll("tr");
+  // for (i = 0; i < tr.length; i++) {
+  //   tbody.removeChild(tr[i]);
+  // }
+  // pageNumber(bmiArray.length);
+  // updateBMI(pageLocalArray[0]);
   location.reload();
 });
 
@@ -276,7 +292,7 @@ function updateBMI(num) {
     }
     // - 順向 for (i = (num - 1) * 10; i < lastLength; i++)
     // - 反向 for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--)
-    for (i =  lastLength-1 ; i >= (num - 1) * 10 ; i--) {
+    for (i = (num - 1) * 10; i < lastLength; i++) {
       // ? createTextNode or textContent ? -> 同一節點多行文字，或是改變整段文字
       // - 若不使用不同變數名稱存入 td資料，將視為同一 td內多行文字，<td> BMI 體重 身高 紀錄時間 </td>
       var tr = document.createElement("tr");
@@ -328,7 +344,7 @@ function timeFunction() {
   var todayTime = new Date();
   // year/month/day
   // var formatTime = todayTime.getFullYear() + "/" + (todayTime.getMonth() + 1) + "/" + todayTime.getDay();
-console.log(todayTime)
+  console.log(todayTime)
 
   var year = todayTime.getFullYear();
   var month = ("0" + (todayTime.getMonth() + 1)).slice(-2);

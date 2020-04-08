@@ -51,31 +51,32 @@
 
   <main>
     <div class="container mt-5">
-      <form class="" method="">
+      <form class="" method="" class="js-formBMI">
         <!-- 不會自動跳轉 target="nm_iframe" -->
         <div class="row  align-items-center ">
           <div class="col-md-4 d-flex justify-content-end">
             <img src="img/BMICLogo.png" alt="" class="img-fluid d-none d-md-block mt-n3">
           </div>
           <div class="col-md-4 col-6 ">
-            <div class="input-group  ">
-              <div class="input-group-append ">
-                <label for="weight" class="input-group-text bg-light rounded-left ">
-                  體重
-                </label>
+              <div class="input-group  ">
+                <div class="input-group-append ">
+                  <label for="weight" class="input-group-text bg-light rounded-left ">
+                    體重
+                  </label>
+                </div>
+                <input type="number" class="form-control bg-light border-left-0 " id="weight" placeholder="kg"
+                  data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入體重 kg</em>" required>
               </div>
-              <input type="number" class="form-control bg-light border-left-0 " id="weight" placeholder="kg"
-                data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入體重 kg</em>" required>
-            </div>
-            <div class="input-group  my-3">
-              <div class="input-group-append">
-                <label for="height" class="input-group-text bg-light rounded-left">
-                  身高
-                </label>
+              <div class="input-group  my-3">
+                <div class="input-group-append">
+                  <label for="height" class="input-group-text bg-light rounded-left">
+                    身高
+                  </label>
+                </div>
+                <input type="number" class="form-control bg-light border-left-0 border-primary" id="height" placeholder="cm"
+                  data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入身高 cm</em>" required>
               </div>
-              <input type="number" class="form-control bg-light border-left-0 border-primary" id="height" placeholder="cm"
-                data-toggle="tooltip" data-placement="top" data-html="true" title="<em>輸入身高 cm</em>" required>
-            </div>
+            
           </div>
           <div class="col-md-4 col-6 d-flex ">
             <button type="submit" class="btn btn-primary text-secondary mt-n3 record  js-record ">
@@ -84,15 +85,13 @@
             <div class="mt-n3 text-center d-none result js-result">
               <h3 class="js-resultBMI mt-4 mb-0">20.5</h3>
               <small class="">BMI</small>
-              <button type="button" class="btn reStart js-reStart "><img src="img/icons_loop.png" alt=""
+              <button type="reset" class="btn reStart js-reStart "><img src="img/icons_loop.png" alt=""
                   class="reStart__img">
               </button>
             </div>
             <h3 class="ml-2 mt-3 js-resultText d-none "></h3>
           </div>
         </div>
-
-    </div>
     </form>
     <!-- 為什麼這樣可以不跳轉直接顯示? -->
     <!-- <iframe  name="nm_iframe" class="d-none"></iframe> -->
@@ -128,6 +127,8 @@
         </div>
       </div>
     </div>
+
+    <
 
     <button type="button" class="btn btn-primary rounded-circle py-3 top">TOP</button>
   </main>
